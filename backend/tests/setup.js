@@ -9,6 +9,16 @@ const app = require("../src/app");
 const tables = require("../src/tables");
 const database = require("../database/client");
 
+let connection;
+
+beforeAll(async () => {
+  connection = await database.getConnection();
+});
+
+afterEach(() => {
+  connection.release();
+});
+
 afterAll((done) => {
   database.end().then(done);
 });

@@ -37,8 +37,7 @@ function Navbar({ stations, position, open, setOpen }) {
   stationsWithDistance.sort((a, b) => a.distance - b.distance);
 
   const nearestStations = stationsWithDistance.slice(0, 10);
-  const { handleModal, openBooking, setHandleModal, setOpenBooking } =
-    useStore();
+  const { openBooking, setOpenBooking } = useStore();
 
   return (
     <nav className="navbar_container">
@@ -57,11 +56,11 @@ function Navbar({ stations, position, open, setOpen }) {
           <Dialog.Root open={open} onOpenChange={setOpen}>
             <Dialog.Trigger
               onClick={() => {
-                setHandleModal(true);
                 setOpenBooking({
-                  page1: false,
+                  page1: true,
                   page2: false,
                   page3: false,
+                  page4: false,
                 });
               }}
             >
@@ -75,7 +74,7 @@ function Navbar({ stations, position, open, setOpen }) {
             <Dialog.Portal>
               <Dialog.Overlay className="dialogOverlay" />
               <Dialog.Content className="dialogContent">
-                {handleModal && (
+                {openBooking.page1 && (
                   <ul>
                     {nearestStations.map((station) => (
                       <StationMiniCard
@@ -85,9 +84,9 @@ function Navbar({ stations, position, open, setOpen }) {
                     ))}
                   </ul>
                 )}
-                {openBooking.page1 && <ChargepointCalendar />}
-                {openBooking.page2 && <ChargepointBook />}
-                {openBooking.page3 && <ChargepointBook2 />}
+                {openBooking.page2 && <ChargepointCalendar />}
+                {openBooking.page3 && <ChargepointBook />}
+                {openBooking.page4 && <ChargepointBook2 />}
               </Dialog.Content>
             </Dialog.Portal>
           </Dialog.Root>

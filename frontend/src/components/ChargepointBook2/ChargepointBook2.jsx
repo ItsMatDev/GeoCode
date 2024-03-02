@@ -14,7 +14,6 @@ function ChargepointBook2() {
     selectedStation,
     setOpenBooking,
     setOpen,
-    setHandleModal,
   } = useStore();
   const navigate = useNavigate();
 
@@ -45,26 +44,24 @@ function ChargepointBook2() {
       if (response.ok) {
         setSelectedVehicle(null);
         toast.success("Votre réservation est validée !", {
-          theme: "colored",
           onClose: () => {
             setTimeout(() => {
               setOpen(false);
-              setHandleModal(true);
               setOpenBooking({
-                page1: false,
+                page1: true,
                 page2: false,
                 page3: false,
+                page4: false,
               });
-            }, 2000);
+            }, 3000);
           },
         });
       } else {
         toast.error("La réservation a échoué, et n'est pas prise en compte !", {
-          theme: "colored",
           onClose: () => {
             setTimeout(() => {
               navigate("/map");
-            }, 2000);
+            }, 3000);
           },
         });
       }
@@ -79,9 +76,10 @@ function ChargepointBook2() {
         type="button"
         onClick={() => {
           setOpenBooking({
-            page1: true,
-            page2: false,
+            page1: false,
+            page2: true,
             page3: false,
+            page4: false,
           });
         }}
       >
@@ -114,11 +112,10 @@ function ChargepointBook2() {
               toast.error(
                 "La réservation a été abandonnée, et non prise en compte !",
                 {
-                  theme: "colored",
                   onClose: () => {
                     setTimeout(() => {
                       navigate("/map");
-                    }, 2000);
+                    }, 3000);
                   },
                 }
               )
@@ -127,16 +124,16 @@ function ChargepointBook2() {
             Non
           </button>
           <ToastContainer
-            position="top-center"
-            autoClose={4000}
+            position="top-right"
+            autoClose={2500}
             hideProgressBar={false}
             newestOnTop={false}
-            closeOnClick
+            closeOnClick={false}
             rtl={false}
             pauseOnFocusLoss
-            draggable
+            draggable={false}
             pauseOnHover
-            theme="light"
+            theme="colored"
           />
         </footer>
       </main>

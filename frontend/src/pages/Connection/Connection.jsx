@@ -39,16 +39,7 @@ function Connection() {
       console.error(error);
     }
     if (auth.user.status !== "user") {
-      toast.error("Erreur de connection, veuillez réessayer", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error("Erreur de connection, veuillez réessayer");
     }
   };
 
@@ -77,15 +68,15 @@ function Connection() {
       </form>
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={2500}
         hideProgressBar={false}
         newestOnTop={false}
-        closeOnClick
+        closeOnClick={false}
         rtl={false}
         pauseOnFocusLoss
-        draggable
+        draggable={false}
         pauseOnHover
-        theme="light"
+        theme="colored"
       />
     </BackgroundAsideType>
   );

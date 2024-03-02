@@ -7,7 +7,6 @@ import arrowDark from "../../assets/arrowBackDark.svg";
 function ChargepointCalendar() {
   const [dateAvailable, setDateAvailable] = useState([]);
   const {
-    setHandleModal,
     setOpenBooking,
     selectedStation,
     carAvailableList,
@@ -86,8 +85,9 @@ function ChargepointCalendar() {
     if (isFormValid) {
       setOpenBooking({
         page1: false,
-        page2: true,
-        page3: false,
+        page2: false,
+        page3: true,
+        page4: false,
       });
     }
   };
@@ -99,11 +99,11 @@ function ChargepointCalendar() {
         type="button"
         onClick={() => {
           setOpenBooking({
-            page1: false,
+            page1: true,
             page2: false,
             page3: false,
+            page4: false,
           });
-          setHandleModal(true);
         }}
       >
         <img src={arrowDark} alt="Retour en arrière" />
@@ -117,6 +117,7 @@ function ChargepointCalendar() {
             className="calendar"
             onChange={handleDateChange}
             value={selectedDate}
+            minDate={new Date()}
           />
           {selectedDate && (
             <>
@@ -139,14 +140,16 @@ function ChargepointCalendar() {
               onChange={(e) => setSelectedTime(new Date(e.target.value))}
             >
               <option value="">Sélectionnez un créneau</option>
-              {dateAvailable.map((time) => (
-                <option key={time} value={time}>
-                  {new Date(time).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </option>
-              ))}
+              {dateAvailable
+                .filter((time) => new Date(time) > new Date()) // Filtrer les créneaux horaires passés
+                .map((time) => (
+                  <option key={time} value={time}>
+                    {new Date(time).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </option>
+                ))}
             </select>
 
             {carAvailableList?.[0] ? (

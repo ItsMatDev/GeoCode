@@ -7,7 +7,7 @@ import useStore from "../../store/AuthProvider";
 function MyBookingPage() {
   const { auth } = useStore();
 
-  const [data, setData] = useState();
+  const [data, setData] = useState(null);
   const [deleted, setDeleted] = useState(false);
 
   useEffect(() => {
@@ -40,17 +40,34 @@ function MyBookingPage() {
     fetchBookByUser();
   }, [!data, deleted]);
 
+  if (data === null) {
+    return (
+      <BackgroundAsideType title="Mes réservations">
+        <p className="mybookings_alternative">Chargement...</p>
+      </BackgroundAsideType>
+    );
+  }
+
+  if (data && data.length === 0) {
+    return (
+      <BackgroundAsideType title="Mes réservations">
+        <p className="mybookings_alternative">
+          Vous n'avez pas de réservation pour le moment.
+        </p>
+      </BackgroundAsideType>
+    );
+  }
+
   return (
     <BackgroundAsideType title="Mes réservations">
-      {data &&
-        data.map((userBook) => (
-          <MyBooking
-            key={userBook.bookId}
-            userBook={userBook}
-            deleted={deleted}
-            setDeleted={setDeleted}
-          />
-        ))}
+      {data.map((userBook) => (
+        <MyBooking
+          key={userBook.bookId}
+          userBook={userBook}
+          deleted={deleted}
+          setDeleted={setDeleted}
+        />
+      ))}
     </BackgroundAsideType>
   );
 }

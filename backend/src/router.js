@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const hashPassword = require("./services/auth");
+const { hashPassword, validateUserSchema } = require("./services/auth");
 
 /* ************************************************************************* */
 // Define Your API Routes Here
@@ -13,13 +13,15 @@ const hashPassword = require("./services/auth");
 const userControllers = require("./controllers/userControllers");
 
 const { authorize } = require("./middlewares/auth");
+const loginValidation = require("./middlewares/loginValidation");
 
 router.get("/users/me", authorize, userControllers.getCurrentUser);
 router.get("/users/logout", userControllers.logout);
 router.get("/connecteduserinfo", authorize, userControllers.read);
-router.post("/users/login", userControllers.login);
-router.post("/user", hashPassword, userControllers.add);
+router.post("/users/login", loginValidation, userControllers.login);
+router.post("/user", validateUserSchema, hashPassword, userControllers.add);
 router.put("/users", authorize, userControllers.updateUser);
+router.delete("/users/:id", userControllers.deleteUser);
 
 // Route to get charge point
 

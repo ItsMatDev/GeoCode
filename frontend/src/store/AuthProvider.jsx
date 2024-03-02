@@ -16,7 +16,6 @@ const initialState = {
 
 function AuthProvider({ children }) {
   const [auth, setAuth] = useState(initialState);
-  const [handleModal, setHandleModal] = useState(true);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedVehicle, setSelectedVehicle] = useState("");
@@ -28,6 +27,7 @@ function AuthProvider({ children }) {
     page1: false,
     page2: false,
     page3: false,
+    page4: false,
   });
   const setConnection = async () => {
     try {
@@ -46,8 +46,6 @@ function AuthProvider({ children }) {
     () => ({
       auth,
       setAuth,
-      handleModal,
-      setHandleModal,
       openBooking,
       setOpenBooking,
       selectedStation,
@@ -67,7 +65,6 @@ function AuthProvider({ children }) {
     }),
     [
       auth,
-      handleModal,
       openBooking,
       setAuth,
       selectedStation,

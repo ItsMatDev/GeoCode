@@ -24,9 +24,10 @@ function ChargepointBook() {
         type="button"
         onClick={() => {
           setOpenBooking({
-            page1: true,
-            page2: false,
+            page1: false,
+            page2: true,
             page3: false,
+            page4: false,
           });
         }}
       >
@@ -75,7 +76,8 @@ function ChargepointBook() {
           setOpenBooking({
             page1: false,
             page2: false,
-            page3: true,
+            page3: false,
+            page4: true,
           });
         }}
       >

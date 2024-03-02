@@ -41,15 +41,16 @@ class BookManager extends AbstractManager {
 
   async getBookingForUser(id) {
     const [rows] = await this.database.query(
-      `SELECT bl.id as bookId, bl.date, bl.car_id , car.* , user.*, cp.*, station.*, lpt.* , pt.*
+      `SELECT bl.id as bookId, bl.date, bl.car_id, car.*, user.*, cp.*, station.*, lpt.*, pt.*
       FROM ${this.table} as bl
       INNER JOIN car ON car.id = bl.car_id 
       INNER JOIN user ON car.user_id = user.id 
       INNER JOIN charge_point as cp ON cp.charge_point_id_fr = bl.charge_point_id
       INNER JOIN station ON cp.station_id = station.station_id_fr
-      INNER JOIN list_plug_type as lpt ON  lpt.charge_point_id=cp.charge_point_id_fr
-      INNER JOIN plug_type as pt ON pt.id=lpt.plug_type_id
-      WHERE user.id = ?;`,
+      INNER JOIN list_plug_type as lpt ON lpt.charge_point_id = cp.charge_point_id_fr
+      INNER JOIN plug_type as pt ON pt.id = lpt.plug_type_id
+      WHERE user.id = ?
+      ORDER BY bl.date ASC;`,
       [id]
     );
     return rows;

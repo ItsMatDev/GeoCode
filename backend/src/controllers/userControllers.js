@@ -6,9 +6,9 @@ const add = async (req, res) => {
   const user = req.body;
   try {
     const insertId = await tables.person.create(user);
-    res.status(201).json({ insertId });
+    res.status(201).json(insertId);
   } catch (err) {
-    res.sendStatus(400);
+    res.sendStatus(500);
   }
 };
 
@@ -37,9 +37,6 @@ const getCurrentUser = async (req, res) => {
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password)
-    return res.status(400).json("Please specify both email and password");
-
   try {
     const [user] = await tables.person.getByEmail(email);
     if (!user) return res.status(400).json("Invalid email");
@@ -62,7 +59,7 @@ const login = async (req, res) => {
       });
     } else res.status(400).json("invalid password");
   } catch (err) {
-    res.sendStatus(404);
+    res.sendStatus(500);
   }
   return null;
 };
@@ -82,6 +79,15 @@ const updateUser = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  try {
+    await tables.person.deleteOne(req.params.id);
+    res.status(200).send({ message: "User deleted successfully" });
+  } catch (err) {
+    res.sendStatus(500);
+  }
+};
+
 module.exports = {
   add,
   read,
@@ -89,4 +95,5 @@ module.exports = {
   login,
   logout,
   updateUser,
+  deleteUser,
 };
