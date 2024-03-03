@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const { hashPassword, validateUserSchema } = require("./services/auth");
+const { hashPassword, validateUserSchema } = require("./middlewares/auth");
 
 const userControllers = require("./controllers/userControllers");
 
