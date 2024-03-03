@@ -91,7 +91,7 @@ describe("Testing user routes", () => {
     expect(res.statusCode).toEqual(401);
   });
 
-  it("POST /user/login should retrieve the user created in the first test", async () => {
+  it("POST /user/login should connect the user modified and return some information", async () => {
     const loginData = {
       email: "tata@example.com",
       password: "password123",
