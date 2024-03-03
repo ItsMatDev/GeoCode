@@ -81,8 +81,10 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    await tables.person.deleteOne(req.params.id);
-    res.status(200).send({ message: "User deleted successfully" });
+    const rows = await tables.person.deleteOne(req.params.id);
+    if (rows.affectedRows > 0)
+      res.status(200).send({ message: "User deleted successfully" });
+    else res.sendStatus(404);
   } catch (err) {
     res.sendStatus(500);
   }
