@@ -114,6 +114,7 @@ describe("Testing user routes", () => {
     const res = await request(app).post("/api/users/login").send(loginData);
 
     expect(res.statusCode).toEqual(400);
+    expect(res.body).toEqual("invalid password");
   });
 
   it("DELETE /users/:id should delete the user created in the previous test", async () => {
