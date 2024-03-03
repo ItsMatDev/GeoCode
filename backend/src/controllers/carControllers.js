@@ -12,9 +12,9 @@ const createCar = async (req, res) => {
 };
 
 const deleteCar = async (req, res) => {
-  const selectedCar = req.body;
+  const selectedCar = req.params.id;
   try {
-    const deleteId = await tables.car.delete(selectedCar.id);
+    const deleteId = await tables.car.delete(selectedCar);
     res.status(201).json({ deleteId });
   } catch (err) {
     res.sendStatus(500);

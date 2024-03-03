@@ -4,13 +4,13 @@ import "./DeleteCarConfirmationModal.scss";
 
 function DeleteCarConfirmationModal({ carData, counterCar }) {
   const deleteCar = () => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/car`, {
+    const carId = carData[counterCar];
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/car/${carId.id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify(carData[counterCar]),
     });
     return null;
   };
