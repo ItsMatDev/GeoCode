@@ -29,7 +29,8 @@ const read = async (req, res) => {
 const getCurrentUser = async (req, res) => {
   try {
     const [user] = await tables.person.getById(req.idUser);
-    res.status(200).json(user);
+    if (user) res.status(200).json(user);
+    else res.sendStatus(404);
   } catch (err) {
     res.sendStatus(500);
   }

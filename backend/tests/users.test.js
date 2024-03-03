@@ -128,4 +128,17 @@ describe("Testing user routes", () => {
     const res = await request(app).delete(`/api/users/1000000`);
     expect(res.statusCode).toEqual(404);
   });
+
+  it("GET /users/me shoud now return a 404 error because user is deleted", async () => {
+    const user = { id: userId, status: "user" };
+    const secret = process.env.JWT_AUTH_SECRET;
+    const expiresIn = "1h";
+    const accessToken = jwt.sign(user, secret, { expiresIn });
+
+    const res = await request(app)
+      .get(`/api/users/me`)
+      .set("Cookie", [`access_token=${accessToken}`]);
+
+    expect(res.statusCode).toEqual(404);
+  });
 });
